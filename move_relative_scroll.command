@@ -12,17 +12,19 @@ for info in info_list:
     if 'usbmodem' in info.name: 
         run = True
         dev = "/dev/"+info.name
-        
+# x y click scroll
 if run:
     ser = serial.Serial(dev)
     print(dev)
     while True:
         line = ser.readline()
-        x, y, click = line.decode('shift-jis').split()
+        x, y, click, scroll = line.decode('shift-jis').split()
         pyautogui.moveRel(int(x), int(y))
         if int(click) == 1:
             pyautogui.click()
         if int(click) == 2:
-            pyautogui.click(button="right")            
-        print(x, y, click)
+            pyautogui.click(button="right")  
+        if int(scroll) != 0:
+            pyautogui.scroll(scroll)          
+        print(x, y, click,scroll)
     ser.close()
